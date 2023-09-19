@@ -80,8 +80,8 @@
 <h2>Login</h2>
 <body>
     <div id="dashboard">
-        <a href="registration.php">Sign Up</a> |
-        <a href="login.php">Login</a>
+        <a href="/register">Sign Up</a> |
+        <a href="/login">Login</a>
     </div>
 <form action="/users/authenticate" method="POST">
     @csrf

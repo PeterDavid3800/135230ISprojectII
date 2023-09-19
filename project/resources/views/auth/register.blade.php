@@ -82,8 +82,8 @@
 
 <body>
     <div id="dashboard">
-        <a href="registration.php">Sign Up</a> |
-        <a href="login.php">Login</a>
+        <a href="/register">Sign Up</a> |
+        <a href="/login">Login</a>
     </div>
     <h2>Registration</h2>
     <form action="/users" method="POST">
