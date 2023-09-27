@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Facade;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Models\Listing;
 
 
 
@@ -16,11 +19,19 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//All Listings
 Route::get('/', function () {
-    return view('welcome');
+    return view('listings', [
+        'heading' => 'Latest Listings',
+        'listings' => Listing::all()
+    ]);
 });
-
+//Single Listings
+Route::get('listings/{id}', function($id){
+    return view('listing', [
+        'listing' => Listing::find($id)
+    ]);
+});
 
 //Showing the register form
 Route::get('/register', [UserController::class, 'register']);
@@ -32,7 +43,7 @@ Route::get('/login', [UserController::class, 'login'])->name('login');
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
 //Register
-//Storing users in databse
+//Storing users in database
 Route::post('/users', [UserController::class, 'store']);
 
 //2fa
