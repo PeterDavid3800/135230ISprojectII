@@ -15,9 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         \App\Models\User::factory(5)->create();
 
-         Listing:: factory(10)->create();
+         Listing:: factory(6)->create();
          //Listing::create([
            //'title' => 'Laravel Senior Developer',
            //'tags' => 'Laravel, Javascript',
@@ -44,5 +43,7 @@ class DatabaseSeeder extends Seeder
         //    'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        \App\Models\User::factory(5)->create();
     }
 }
