@@ -38,18 +38,21 @@ Route::put('/listings/{listing}', [ListingController::class, 'update']);
 
 
 //Delete Listing
-Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
+Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->middleware('auth');
+
+//Manage Listings
+Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware('auth');
 
 //Single Listings
 Route::get('listings/{listing}', [ListingController::class, 'show']);
 
 
 //Showing the register form
-Route::get('/register', [UserController::class, 'register']);
+Route::get('/register', [UserController::class, 'register'])->middleware('guest');
 
 
 //Show login form
-Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
 
 //Authenticate
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
@@ -70,5 +73,3 @@ Route::get('/resend-registration-otp', [UserController::class, 'resendRegOtp'])-
 
 //Logging users out
 Route::post('/logout', [UserController::class, 'logout']);
-
-

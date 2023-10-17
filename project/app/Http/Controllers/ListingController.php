@@ -27,7 +27,8 @@ class ListingController extends Controller
         return view('listings.create');
     }
 
-    //Store listing data
+    
+    // Store listing data
     public function store(Request $request) {
         $formFields = $request->validate([
             'title' => 'required',
@@ -39,10 +40,12 @@ class ListingController extends Controller
             'description' => 'required'
         ]);
 
-        if($request->hasFile('logo')){
-            $formFields['logo'] = $request->file('logo')->store('logos','public');
+        if ($request->hasFile('logo')) {
+            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
+        // Associate the currently authenticated user with the listing
+        $formFields['user_id'] = auth()->id();
        
         Listing::create($formFields);
 
@@ -69,11 +72,12 @@ class ListingController extends Controller
         if($request->hasFile('logo')){
             $formFields['logo'] = $request->file('logo')->store('logos','public');
         }
-
+        
+        $formFields['user_id'] = auth()->id();
        
         $listing->update($formFields);
 
-        return back()->with('message', 'Listing updated successfully!');
+        return redirect()->with('message', 'Listing updated successfully!');
 }
 
 //Delete Listing
@@ -81,6 +85,9 @@ public function destroy(Listing $listing){
  $listing->delete();
  return redirect('/')->with('message', 'Listing deleted successfully');
 }
-
+// Manage Listings
+public function manage() {
+    return view('listings.manage', ['listings' => auth()->user()->listings()->get()]);
+}
 
 }
