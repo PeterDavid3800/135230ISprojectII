@@ -28,13 +28,13 @@
 
                         <div class="mb-6">
                             <label for="title" class="inline-block text-lg mb-2"
-                                >Job Title</label
+                                >Product</label
                             >
                             <input
                                 type="text"
                                 class="border border-gray-200 rounded p-2 w-full"
                                 name="title"
-                                placeholder="Example: Senior Laravel Developer"
+                                placeholder="Example: Laptop"
                                 value="{{old('title')}}"
                             />
                             @error('title')
@@ -46,13 +46,13 @@
                             <label
                                 for="location"
                                 class="inline-block text-lg mb-2"
-                                >Job Location</label
+                                >Location</label
                             >
                             <input
                                 type="text"
                                 class="border border-gray-200 rounded p-2 w-full"
                                 name="location"
-                                placeholder="Example: Remote, Boston MA, etc"
+                                placeholder="Example: Nairobi, Kenya etc"
                                 value="{{old('location')}}"
                             />
                             @error('location')
@@ -75,23 +75,7 @@
                             @enderror
                         </div>
 
-                        <div class="mb-6">
-                            <label
-                                for="website"
-                                class="inline-block text-lg mb-2"
-                            >
-                                Website/Application URL
-                            </label>
-                            <input
-                                type="text"
-                                class="border border-gray-200 rounded p-2 w-full"
-                                name="website"
-                                value="{{old('website')}}"
-                            />
-                            @error('website')
-                             <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                            @enderror
-                        </div>
+        
 
                         <div class="mb-6">
                             <label for="tags" class="inline-block text-lg mb-2">
@@ -101,7 +85,7 @@
                                 type="text"
                                 class="border border-gray-200 rounded p-2 w-full"
                                 name="tags"
-                                placeholder="Example: Laravel, Backend, Postgres, etc"
+                                placeholder="Example: Electronics, Foods & Beverages, etc"
                                 value="{{old('tags')}}"
                             />
                             @error('tags')
@@ -111,7 +95,7 @@
 
                         <div class="mb-6">
                             <label for="logo" class="inline-block text-lg mb-2">
-                                Company Logo
+                                Product Image
                             </label>
                             <input
                                 type="file"
@@ -125,18 +109,37 @@
 
                         <div class="mb-6">
                             <label
+                                for="website"
+                                class="inline-block text-lg mb-2"
+                            >
+                            Former Price
+                            </label>
+                            <input
+                                type="text"
+                                class="border border-gray-200 rounded p-2 w-full"
+                                name="website"
+                                placeholder="Example: Was 75,000"
+                                value="{{old('website')}}"
+                            />
+                            @error('website')
+                             <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-6">
+                            <label
                                 for="description"
                                 class="inline-block text-lg mb-2"
                             >
-                                Job Description
+                            Discounted Price
                             </label>
-                            <textarea
+                            <input
                                 class="border border-gray-200 rounded p-2 w-full"
                                 name="description"
                                 rows="10"
-                                placeholder="Include tasks, requirements, salary, etc"
+                                placeholder="Disocunt of 30%, New Price is 52,500 etc"
                                 value="{{old('description')}}"
-                            ></textarea>
+                            >
                             @error('description')
                              <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
@@ -146,7 +149,7 @@
                             <button
                                 class="bg-laravel text-white rounded py-2 px-4 hover:bg-black"
                             >
-                                Create Gig
+                                Create Discount
                             </button>
 
                             <a href="/" class="text-black ml-4"> Back </a>
