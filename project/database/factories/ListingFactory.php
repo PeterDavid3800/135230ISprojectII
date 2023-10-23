@@ -18,12 +18,13 @@ class ListingFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(),
-            'tags'  => 'laravel, api, backend',
-            'company'  => $this->faker->company(),
-            'email'  => $this->faker->companyEmail(),
-            'website'  => $this->faker->url(),
-            'location'  => $this->faker->city(),
-            'description'  => $this->faker->paragraph(5),
+            'tags' => 'electronic, home appliances, foods & beverages',
+            'company' => $this->faker->company(),
+            'email' => $this->faker->companyEmail(),
+            'location' => $this->faker->city(),
+            'oldPrice' => $this->faker->randomFloat(2, 10, 100), // Generate random oldPrice between 10 and 100
+            'newPrice' => $this->faker->randomFloat(2, 5, 90),   // Generate random newPrice between 5 and 90
+            'description' => $this->faker->paragraph(5),
         ];
     }
 }
