@@ -1,1 +1,3 @@
-Make Order
+<x-layout>
+    Make Order
+</x-layout>

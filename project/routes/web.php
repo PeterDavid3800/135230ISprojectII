@@ -74,5 +74,5 @@ Route::get('/resend-otp', [UserController::class, 'resendOtp'])->name('resend-ot
 Route::get('/resend-registration-otp', [UserController::class, 'resendRegOtp'])->name('resendRegOtp');
 
 
-//Logging users out
-Route::post('/logout', [UserController::class, 'logout']);
+// Log User Out
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
