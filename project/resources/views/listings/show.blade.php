@@ -33,9 +33,10 @@
                   class="fa-solid fa-envelope"></i>
                 Contact Merchant</a>
   
-                <a href="{{ route('orders') }}" target="_blank" class="block bg-black text-white py-2 rounded-xl hover:opacity-80">
-                  <i class="fa-solid fa-globe"></i> Place Order
+                <a href="{{ route('orders') }}" class="block bg-black text-white py-2 rounded-xl hover:opacity-80">
+                  <i class="fa-solid fa-globe"></i> Make an Order
               </a>
+              
 
             </div>
           </div>

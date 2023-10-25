@@ -1,5 +1,4 @@
 @props(['listing'])
-@props(['orders'])
 <x-card>
     <div class="flex">
         <img
