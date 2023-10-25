@@ -43,12 +43,11 @@ Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->mid
 //Manage Listings
 Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware('auth');
 
-//Orders Page
-Route::get('/orders/orders', [OrderController::class, 'orders'])->middleware('auth')->name('orders');
-
-
 //Single Listings
 Route::get('listings/{listing}', [ListingController::class, 'show']);
+
+//Orders Page
+Route::get('/orders/orders', [OrderController::class, 'orders'])->middleware('auth')->name('orders');
 
 //Showing the register form
 Route::get('/register', [UserController::class, 'register'])->middleware('guest');

@@ -1,4 +1,5 @@
 @props(['listing'])
+@props(['orders'])
 <x-card>
     <div class="flex">
         <img
@@ -13,7 +14,9 @@
             <div class="text-xl font-bold mb-4">{{$listing->company}}</div>
             <x-listing-tags :tagsCsv="$listing->tags" />
                 <div class="text-lg mt-4">
-                    <strong>Kshs {{ $listing->newPrice }}</strong>
+                    <strong style="color: red;"> <del>Was Kshs {{$listing->oldPrice}}</del> </strong> <br>
+                    <strong>Is Now</strong><br>
+                    <strong> Kshs {{$listing->newPrice}}</strong>
                 </div>
                 
         </div>

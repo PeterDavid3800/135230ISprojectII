@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('listingsid');
-            $table->foreignId('new_price');
+            $table->foreignId('user_id');
+            $table->foreignId('listings_id');
             $table->double('payment');
             $table->date('order_date');
+            $table->enum('status', ['cart', 'pending', 'completed'])->default('cart'); // Add order status
             $table->timestamps();
         });
     }

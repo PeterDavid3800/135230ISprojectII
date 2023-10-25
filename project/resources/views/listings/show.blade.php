@@ -13,8 +13,13 @@
           <div class="text-xl font-bold mb-4">{{$listing->company}}</div>
   
           <x-listing-tags :tagsCsv="$listing->tags" />
+            <div class="text-lg my-4">
+              <i class="fa-solid fa-location-dot"></i> {{$listing->location}}
+            </div>
   
             <div class="text-lg mt-4">
+              <strong style="color: red;"> <del>Was Kshs {{$listing->oldPrice}}</del> </strong> <br>
+              <strong>Is Now</strong><br>
               <strong> Kshs {{$listing->newPrice}}</strong>
           </div>
           <div class="border border-gray-200 w-full mb-6"></div>
