@@ -8,6 +8,7 @@
 
         <table class="w-full table-auto rounded-sm">
             <tbody>
+                         
             </tbody>
         </table>
     </x-card>

@@ -22,15 +22,13 @@ class OrderController extends Controller
     // To handle order requests
     public function placeOrder(Request $request)
     {
-        $listingId = $request->input('listings_id'); // Assuming you pass the listing ID in the request
+        $listingId = $request->input('listings_id');
 
         // Create a new order
         $order = new Order();
         $order->listings_id = $listingId;
-        $order->user_id = auth()->user()->id; // Assuming you're using user authentication
+        $order->user_id = auth()->user()->id; 
         $order->save();
-
-        // Optionally, you can perform additional actions here, such as sending confirmation emails or notifications.
 
         return redirect()->back()->with('success', 'Order placed successfully');
     }
