@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
 use Spatie\Crawler\CrawlObservers\CrawlObserver;
 
-class Observer extends CrawlObserver
+class Observer
 {
     /**
      * Called when the crawler will crawl the url.
@@ -20,7 +20,6 @@ class Observer extends CrawlObserver
      */
     public function willCrawl(UriInterface $url)
     {
-        // You can add any logic you need before crawling the URL
     }
 
     /**
@@ -35,9 +34,9 @@ class Observer extends CrawlObserver
         ResponseInterface $response,
         ?UriInterface $foundOnUrl = null
     ): void {
-        // Create records or perform any other actions for successful crawls
+        // Create records
         $crawl = Crawler::updateOrCreate([
-            'url' => $url->__toString() // Convert the URL to a string
+            'url' => $url
         ], [
             'status' => $response->getStatusCode()
         ]);
@@ -55,8 +54,7 @@ class Observer extends CrawlObserver
         RequestException $requestException,
         ?UriInterface $foundOnUrl = null
     ): void {
-        // Log the URL that failed to crawl
-        Log::error('crawlFailed: ' . $url->__toString());
+        Log::error('crawlFailed: ' . $url);
     }
 
     /**
@@ -64,6 +62,6 @@ class Observer extends CrawlObserver
      */
     public function finishedCrawling(): void
     {
-        // You can perform any cleanup or additional actions after crawling is finished
+        //
     }
 }

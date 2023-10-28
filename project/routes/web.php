@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Models\Listing;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\OrderController;
+use App\Models\Crawler;
 
 
 /*
@@ -81,3 +82,11 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 //BREAK FOR THE ORDERING ROUTES
 //Orders Page
 Route::get('/orders/orders', [OrderController::class, 'orders'])->middleware('auth')->name('orders');
+
+
+//Crawler
+Route::get('/crawler', function () {
+    $items = Crawler::orderBy('status', 'asc')->get();
+
+    return view('Look', ['items' => $items]);
+});
