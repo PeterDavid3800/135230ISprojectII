@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('company');
             $table->string('location');
             $table->string('email');
+            $table->string('website');
             $table->double('oldPrice');
             $table->double('newPrice');
             $table->longText('description');

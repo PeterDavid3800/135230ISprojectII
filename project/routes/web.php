@@ -20,12 +20,12 @@ use App\Http\Controllers\OrderController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//All Listings
+//ALL LISTING ROUTES
+
 Route::get('/', [ListingController::class, 'index']);
 
 //Show Create Form
 Route::get('listings/create', [ListingController::class, 'create'])->middleware('auth');
-
 
 //Store Listings Data
 Route::post('listings', [ListingController::class, 'store']);
@@ -46,8 +46,9 @@ Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware
 //Single Listings
 Route::get('listings/{listing}', [ListingController::class, 'show']);
 
-//Orders Page
-Route::get('/orders/orders', [OrderController::class, 'orders'])->middleware('auth')->name('orders');
+
+//BREAK FOR THE USER AUTH ROUTES
+
 
 //Showing the register form
 Route::get('/register', [UserController::class, 'register'])->middleware('guest');
@@ -75,3 +76,8 @@ Route::get('/resend-registration-otp', [UserController::class, 'resendRegOtp'])-
 
 // Log User Out
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
+
+
+//BREAK FOR THE ORDERING ROUTES
+//Orders Page
+Route::get('/orders/orders', [OrderController::class, 'orders'])->middleware('auth')->name('orders');
