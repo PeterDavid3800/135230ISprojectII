@@ -1,4 +1,7 @@
-<table class="table table-dark">
+<x-layout>
+    @include('partials._hero')
+    @include('partials._search')
+    <table class="table table-dark">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -18,3 +21,4 @@
         @endforeach
     </tbody>
 </table>
+</x-layout>

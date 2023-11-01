@@ -33,10 +33,22 @@
                   class="fa-solid fa-envelope"></i>
                 Contact Merchant</a>
   
-                <a href="{{ route('orders') }}" class="block bg-black text-white py-2 rounded-xl hover:opacity-80">
-                  <i class="fa-solid fa-globe"></i> Make an Order
+              <a href="{{$listing->website}}" class="block bg-black text-white py-2 rounded-xl hover:opacity-80">
+                  <i class="fa-solid fa-globe"></i> Visit Website
               </a>
-              
+            <form method="POST" action="/listings/{{$listing->id}}/add-to-cart">
+                @csrf
+                <input type="number" name="quantity" value="1" min="0">
+                <button type="submit" class="bg-black text-white px-4 py-2 rounded-full">Add to Cart</button>
+            </form>
+            <a href="/listings/cart" class="block bg-black text-white py-2 rounded-xl hover:opacity-80">
+              <i class="fa-solid fa-cart"></i> View Cart
+          </a>
+            
+            {{--
+            <a href="/listings/cart" class="block bg-black text-white py-2 rounded-xl hover:opacity-80">
+                <i class="fa-solid fa-wallet"></i> Make an Order
+            </a>--}}
 
             </div>
           </div>

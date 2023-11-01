@@ -13,8 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('cart_items', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('listing_id')->constrained('listings');
+            $table->integer('quantity');
+            $table->timestamps();
+        });
     }
+    
 
     /**
      * Reverse the migrations.
@@ -23,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('cart_items');
     }
 };

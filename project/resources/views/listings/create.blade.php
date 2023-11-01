@@ -44,8 +44,21 @@
           </div>
 
           <div class="mb-6">
+            <label for="website" class="inline-block text-lg mb-2">
+              Website/Application URL
+            </label>
+            <input type="text" class="border border-gray-200 rounded p-2 w-full" name="website"
+              value="{{old('website')}}" />
+    
+            @error('website')
+            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+            @enderror
+          </div>
+          
+
+          <div class="mb-6">
               <label for="oldPrice" class="inline-block text-lg mb-2">Former Price</label>
-              <input type="text" class="border border-gray-200 rounded p-2 w-full" name="oldPrice" placeholder="Price before Discount" value="{{ old('oldPrice') }}" />
+              <input type="text" class="border border-gray-200 rounded p-2 w-full" name="oldPrice" placeholder="Price before Discount, avoid commas" value="{{ old('oldPrice') }}" />
 
               @error('oldPrice')
               <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -54,7 +67,7 @@
 
           <div class="mb-6">
               <label for="newPrice" class="inline-block text-lg mb-2">New Price</label>
-              <input type="text" class="border border-gray-200 rounded p-2 w-full" name="newPrice" placeholder="Price after Discount" value="{{ old('newPrice') }}" />
+              <input type="text" class="border border-gray-200 rounded p-2 w-full" name="newPrice" placeholder="Price after Discount, avoid commas" value="{{ old('newPrice') }}" />
 
               @error('newPrice')
               <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
