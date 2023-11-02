@@ -66,8 +66,6 @@ Route::get('listings/{listing}', [ListingController::class, 'show']);
 
 
 //ALL USER AUTH ROUTES
-
-
 //Showing the register form
 Route::get('/register', [UserController::class, 'register'])->middleware('guest');
 
