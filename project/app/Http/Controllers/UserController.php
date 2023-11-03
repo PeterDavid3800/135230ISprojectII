@@ -70,7 +70,8 @@ class UserController extends Controller
          $formFields = $request->validate([
              'name' => ['required', 'min:3'],
              'email' => ['required', 'email', Rule::unique('users', 'email')],
-             'password' => ['required', 'min:6']
+             'password' => ['required', 'min:6'],
+             'role' => ['required', Rule::in(['user', 'merchant', 'admin'])],
          ]);
      
          //get profile image
@@ -80,6 +81,8 @@ class UserController extends Controller
      
          // Hash Password
          $formFields['password'] = bcrypt($formFields['password']);
+
+         $formFields['role'] = $request->input('role');
      
          // Generate OTP
          $otp = rand(100000, 999999);

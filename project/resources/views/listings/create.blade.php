@@ -84,7 +84,7 @@
           </div>
 
           <div class="mb-6">
-              <label for="logo" class="inline-block text-lg mb-2">Company Logo</label>
+              <label for="logo" class="inline-block text-lg mb-2">Product Image</label>
               <input type="file" class="border border-gray-200 rounded p-2 w-full" name="logo" />
 
               @error('logo')
@@ -109,3 +109,14 @@
       </form>
   </x-card>
 </x-layout>
+{{-- @role('user')
+    <!-- Content for users -->
+@endrole
+
+@role('merchant')
+    <!-- Content for merchants -->
+@endrole
+
+@role('admin')
+    <!-- Content for admins -->
+@endrole

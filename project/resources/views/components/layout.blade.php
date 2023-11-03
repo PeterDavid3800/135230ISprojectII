@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -37,12 +38,15 @@
                 <li>
                    <span class="font-bold">Welcome {{auth()->user()->name}}</span>
                 </li>
+                @if(auth()->user()->role == "merchant" | auth()->user()->role == "admin" )
                 <li>
                     <a href="/listings/manage " class="hover:text-laravel"
                         ><i class="fa-solid fa-gear"></i>
                         Manage Listings</a
                     >
                 </li>
+                @endif
+               
                 <li>
                     <form class="inline" method="POST" action="/logout">
                       @csrf
@@ -73,12 +77,13 @@
             class="fixed bottom-0 left-0 w-full flex items-center justify-start font-bold bg-laravel text-white h-24 mt-24 opacity-90 md:justify-center"
         >
             <p class="ml-2">Copyright &copy; 2023, All Rights reserved</p>
-
+            @if(auth()->user()->role == "merchant" | auth()->user()->role == "admin" )
             <a
                 href="/listings/create"
                 class="absolute top-1/3 right-10 bg-black text-white py-2 px-5"
                 >Post Discount</a
             >
+            @endif
         </footer>
         <x-flash-message></x-flash-message>
     </body>

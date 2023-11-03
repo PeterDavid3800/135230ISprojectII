@@ -23,43 +23,33 @@ use App\Models\Order;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//ALL LISTING ROUTES
-
 Route::get('/', [ListingController::class, 'index']);
 
-//Show Create Form
-Route::get('listings/create', [ListingController::class, 'create'])->middleware('auth');
+Route::group(['middleware' => ['auth']], function () {
+    // User-specific routes
+    Route::get('/listings/cart', [ListingController::class, 'cart']);
+    Route::post('/listings/{listing}/add-to-cart', [ListingController::class, 'addToCart']);
+    Route::delete('/listings/{listing}/remove-from-cart', [ListingController::class, 'removeFromCart']);
+    
+    // Merchant and Admin-specific routes
+    Route::group(['middleware' => ['checkRole:merchant,admin']], function () {
+        // "Create," "Edit," "Update," "Delete," and "Manage" routes
+        Route::get('listings/create', [ListingController::class, 'create']);
+        Route::get('listings/{listing}/edit', [ListingController::class, 'edit']);
+        Route::put('/listings/{listing}', [ListingController::class, 'update']);
+        Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
+        Route::get('/listings/manage', [ListingController::class, 'manage']);
+    });
+    
+    // Orders Listing
+    Route::get('/listings/orders', [ListingController::class, 'orders'])->name('orders');
+    Route::get('/listings/orders', [ListingController::class, 'showOrderForm'])->name('order-form');
+    Route::post('/listings/orders', [ListingController::class, 'placeOrder'])->name('place-order');
+});
 
-//Store Listings Data
-Route::post('listings', [ListingController::class, 'store']);
-
-//Show Edit Form
-Route::get('listings/{listing}/edit', [ListingController::class, 'edit']);
-
-//Update Listing
-Route::put('/listings/{listing}', [ListingController::class, 'update']);
-
-
-//Delete Listing
-Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->middleware('auth');
-
-//Manage Listings
-Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware('auth');
-
-//Cart Listing
-Route::get('/listings/cart', [ListingController::class, 'cart']);
-Route::post('/listings/{listing}/add-to-cart', [ListingController::class, 'addToCart']);
-Route::delete('/listings/{listing}/remove-from-cart', [ListingController::class, 'removeFromCart']);
-
-// Orders Listing
-Route::get('/listings/orders', [ListingController::class, 'orders'])->middleware('auth')->name('orders');
-Route::get('/listings/orders', [ListingController::class, 'showOrderForm'])->name('order-form');
-Route::post('/listings/orders', [ListingController::class, 'placeOrder'])->name('place-order');
-
-
-
-//Single Listings
+// Single Listings
 Route::get('listings/{listing}', [ListingController::class, 'show']);
+
 
 
 
@@ -104,4 +94,10 @@ Route::get('/crawler', function () {
 });
 
 //SCRAPER
-Route::get('scraper', [ScraperController::class, 'scraper'])->name('scraper');
+Route::get('scraper', [ScraperController::class, 'scrapeJumia'])->name('scraper');
+Route::get('/{productLink}', [ScraperController::class, 'product'])->name('product');
+
+
+
+
+

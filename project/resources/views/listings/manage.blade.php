@@ -1,8 +1,9 @@
+@role('merchant|admin')
 <x-layout>
     <x-card class="p-10">
       <header>
         <h1 class="text-3xl text-center font-bold my-6 uppercase">
-          Manage Gigs
+          Manage Deals
         </h1>
       </header>
   
@@ -40,4 +41,4 @@
       </table>
     </x-card>
   </x-layout>
-  
+@endrole

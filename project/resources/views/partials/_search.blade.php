@@ -21,4 +21,10 @@
             </button>
         </div>
     </div>
+    <div class="flex">
+        <div class="ml-4">
+            <a href="/" style="color: red; font-weight: bold;">Latest Deals on Savify |</a>
+            <a href="/scraper" style="color: red; font-weight: bold;">Visit Deals from Other Sites</a>
+        </div>
+    </div>
 </form>
