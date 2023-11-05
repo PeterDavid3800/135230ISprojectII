@@ -14,7 +14,6 @@ class="relative h-72 bg-laravel flex flex-col justify-center align-center text-c
     <p class="text-2xl text-gray-200 font-bold my-4">
         Find Discounts
     </p>
-    @if(auth()->user()->role == "user")
     <div>
         <a
             href="/register"
@@ -22,6 +21,5 @@ class="relative h-72 bg-laravel flex flex-col justify-center align-center text-c
             >Set Your Budget</a
         >
     </div>
-    @endif
 </div>
 </section>

@@ -202,33 +202,29 @@ public function placeOrder(Request $request)
     $deliveryDate = $request->input('delivery_date');
 
     // Generate a delivery note or order summary
-    $deliveryNote = 'Your Order Summary:';
-    foreach ($cartItems as $cartItem) {
-        $deliveryNote .= $cartItem->listing->title . ' x' . $cartItem->quantity . ': Kshs ' . ($cartItem->listing->newPrice * $cartItem->quantity) . "\n";
-    }
-    $deliveryNote .= 'Total Price: Kshs ' . $totalPrice . "\n";
-    $deliveryNote .= 'Delivery Date: ' . $deliveryDate . "\n";
-    $deliveryNote .= 'Delivery Address: ' . $deliveryAddress . "\n";
+$deliveryNote = 'Your Order Summary:';
+foreach ($cartItems as $cartItem) {
+    $deliveryNote .= $cartItem->listing->title . ' x' . $cartItem->quantity . ': Kshs ' . ($cartItem->listing->newPrice * $cartItem->quantity) . "\n";
+}
+$deliveryNote .= 'Total Price: Kshs ' . $totalPrice . "\n";
+$deliveryNote .= 'Delivery Date: ' . $deliveryDate . "\n";
+$deliveryNote .= 'Delivery Address: ' . $deliveryAddress . "\n";
 
-    // Generate a PDF from the delivery note
-    $pdf = PDF::loadView('listings.delivery-note', ['deliveryNote' => $deliveryNote]);
+// Generate a PDF from the delivery note
+$pdf = PDF::loadView('listings.delivery-note', ['deliveryNote' => $deliveryNote]);
 
-    // Send the PDF to the user's email
-    Mail::send('emails.order-confirmation', ['order' => $deliveryNote], function ($message) use ($pdf) {
-        $message->to(auth()->user()->email)
-                ->subject('Order Confirmation')
-                ->attachData($pdf->output(), 'delivery-note.pdf');
-    });
+// Send the PDF to the user's email
+Mail::send('emails.order-confirmation', ['order' => $deliveryNote], function ($message) use ($pdf) {
+    $message->to(auth()->user()->email)
+            ->subject('Order Confirmation')
+            ->attachData($pdf->output(), 'delivery-note.pdf');
+});
+
 
     // Optionally, save the order and related information to the database
 
     // Redirect the user after placing the order
     return redirect('/')->with('message', 'Order placed successfully!');
-}
-
-public function cancelOrder(Request $request)
-{
-    // Add logic to cancel an order if needed
 }
 
 
