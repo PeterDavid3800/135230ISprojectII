@@ -109,14 +109,3 @@
       </form>
   </x-card>
 </x-layout>
-{{-- @role('user')
-    <!-- Content for users -->
-@endrole
-
-@role('merchant')
-    <!-- Content for merchants -->
-@endrole
-
-@role('admin')
-    <!-- Content for admins -->
-@endrole

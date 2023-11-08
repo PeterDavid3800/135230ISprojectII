@@ -64,6 +64,12 @@ class ListingController extends Controller
 
     // Show Edit Form
     public function edit(Listing $listing) {
+        // Check if the user is an admin or the owner of the listing
+    if (auth()->user()->role === 'admin' || $listing->user_id == auth()->id()) {
+        return view('listings.edit', ['listing' => $listing]);
+    } else {
+        abort(403, 'Unauthorized Action');
+    }
         return view('listings.edit', ['listing' => $listing]);
     }
 
@@ -98,23 +104,42 @@ class ListingController extends Controller
     
     // Delete Listing
     public function destroy(Listing $listing) {
-        // Make sure logged in user is owner
-        if($listing->user_id != auth()->id()) {
+        // Check if the logged-in user is authorized to delete the listing
+        if ($listing->user_id != auth()->id() && auth()->user()->role !== 'admin') {
             abort(403, 'Unauthorized Action');
         }
-        
-        if($listing->logo && Storage::disk('public')->exists($listing->logo)) {
-            Storage::disk('public')->delete($listing->logo);
-        }
-        $listing->delete();
+    
+        // Retrieve the related cart items
+       $cartItems = CartItem::where('listing_id', $listing->id)->get();
+    
+       // Detach the cart items from the listing
+       $listing->cartItems->each(function ($cartItem) {
+           $cartItem->delete();
+       });
+       
+       // Now you can safely delete the listing
+       if ($listing->logo && Storage::disk('public')->exists($listing->logo)) {
+           Storage::disk('public')->delete($listing->logo);
+       }
+       $listing->delete();
+    
         return redirect('/')->with('message', 'Listing deleted successfully');
     }
-
+    
+    
        // Manage Listings
        public function manage() 
-       {
-        return view('listings.manage', ['listings' => auth()->user()->listings()->get()]);
-       }
+{
+    if (auth()->user()->role === 'admin') {
+        // If the user has an 'admin' role, retrieve all listings
+        $listings = Listing::all();
+    } else {
+        // For other users, retrieve their own listings
+        $listings = auth()->user()->listings()->get();
+    }
+    return view('listings.manage', ['listings' => $listings]);
+}
+
     public function cart()
       {
         return view('listings.cart', ['listings' => auth()->user()->listings()->get()]);
@@ -225,6 +250,38 @@ Mail::send('emails.order-confirmation', ['order' => $deliveryNote], function ($m
 
     // Redirect the user after placing the order
     return redirect('/')->with('message', 'Order placed successfully!');
+}
+
+public function generateTagChart()
+{
+    // Retrieve cart items and associated listings
+    $cartItems = auth()->user()->cartItems()->with('listing')->get();
+
+    // Count tags
+    $tagCounts = [];
+
+    foreach ($cartItems as $cartItem) {
+        $listingTags = $cartItem->listing->tagsArray;
+
+        foreach ($listingTags as $tag) {
+            if (isset($tagCounts[$tag])) {
+                $tagCounts[$tag]++;
+            } else {
+                $tagCounts[$tag] = 1;
+            }
+        }
+    }
+
+    // Sort tags by count in descending order
+    arsort($tagCounts);
+
+    // Prepare data for the chart
+    $chartData = [
+        'labels' => array_keys($tagCounts),
+        'data' => array_values($tagCounts),
+    ];
+    //dd($chartData);
+    return view('chart', ['chartData' => $chartData]);
 }
 
 

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CartItem;
+
 
 class Listing extends Model
 {
@@ -26,5 +28,13 @@ class Listing extends Model
     //Relationship to User
     public function user() {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function getTagsArrayAttribute()
+    {
+    return explode(',', $this->tags); 
+    }
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class, 'listing_id', 'id');
     }
 }

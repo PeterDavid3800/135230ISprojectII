@@ -40,6 +40,7 @@ class ScraperController extends Controller
             // Combine the base URL and product link to create the complete URL
             $completeProductLink = $baseURL . $productLink;
 
+            //Store data in the array
             $scrapedData[] = [
                 'productLink' => $completeProductLink,
                 'productName' => $productName,
@@ -47,24 +48,12 @@ class ScraperController extends Controller
                 'productBrand' => $productBrand,
                 'productCategory' => $productCategory,
                 'productDiscount' => $productDiscount,
-                'imageURL' => $imageURL, // Add the image URL to the scraped data
+                'imageURL' => $imageURL, 
             ];
         });
         session(['scrapedData' => $scrapedData]);
         // Return the scraped data to the 'scraper' view
         return view('scraper', compact('scrapedData'));
     }
-
- /*   public function visitWebsite($url)
-{
-    // Construct the complete URL using the base URL and the product link
-    $baseUrl = 'https://jumia.co.ke'; // Replace with the Jumia base URL
-    $completeUrl = $baseUrl . $url;
-
-    // Redirect the user to the complete URL
-    return redirect()->away($completeUrl);
-} */
-
-
 
 }

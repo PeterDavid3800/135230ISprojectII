@@ -36,13 +36,21 @@
             <ul class="flex space-x-6 mr-6 text-lg">
                 @auth
                 <li>
-                   <span class="font-bold">Welcome {{auth()->user()->name}}</span>
+                   <span class="font-bold"> Hey {{auth()->user()->name}}</span>
                 </li>
                 @if(auth()->user()->role == "merchant" | auth()->user()->role == "admin" )
                 <li>
                     <a href="/listings/manage " class="hover:text-laravel"
                         ><i class="fa-solid fa-gear"></i>
                         Manage Listings</a
+                    >
+                </li>
+                @endif
+                @if(auth()->user()->role == "admin" )
+                <li>
+                    <a href="/admin/list " class="hover:text-laravel"
+                        ><i class="fa-solid fa-person"></i>
+                        Manage Users</a
                     >
                 </li>
                 @endif
@@ -78,11 +86,23 @@
         >
             <p class="ml-2">Copyright &copy; 2023, All Rights reserved</p>
             @auth
-    @if(auth()->user()->role == "merchant" || auth()->user()->role == "admin")
+    @if(auth()->user()->role == "merchant")
         <a
             href="/listings/create"
             class="absolute top-1/3 right-10 bg-black text-white py-2 px-5"
         >Post Discount</a>
+    @endif
+    @if(auth()->user()->role == "admin")
+        <a
+            href="/listings/create"
+            class="absolute top-1/3 right-10 bg-black text-white py-2 px-5"
+        >Post Discount</a>
+    @endif
+    @if(auth()->user()->role == "merchant" || auth()->user()->role == "admin")
+        <a
+            href="/chart"
+            class="absolute top-1/3 left-10 bg-black text-white py-2 px-5"
+        >Insights</a>
     @endif
 @endauth
         </footer>

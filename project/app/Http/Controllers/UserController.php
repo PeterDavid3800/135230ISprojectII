@@ -252,10 +252,5 @@ if ($userDetails) {
     return redirect('/verify-registration-otp')->with('error', 'Error resending OTP. Please try again.');
 }
 }
-
-
-
-
-
 }
 
