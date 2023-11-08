@@ -66,9 +66,6 @@ Route::group(['middleware' => ['\App\Http\Middleware\CheckRoleAdmin']], function
         Route::get('/listings/manage', [ListingController::class, 'manage']);
 });
 
-
-
-
 //ALL USER AUTH ROUTES
 //Showing the register form
 Route::get('/register', [UserController::class, 'register'])->middleware('guest');
@@ -97,8 +94,12 @@ Route::get('/resend-registration-otp', [UserController::class, 'resendRegOtp'])-
 // Log User Out
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
+//BUDGET ROUTES
 Route::get('/budget', [BudgetController::class, 'create'])->name('budget.create');
 Route::post('/budget', [BudgetController::class, 'store'])->name('budget.store');
+Route::get('/budget-display', [BudgetController::class, 'displayBudget'])->name('budget.display');
+
+
 
 //CRAWLER
 //Crawler
