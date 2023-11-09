@@ -41,7 +41,7 @@
                 <div class="mb-6">
                     <label for="role" class="inline-block text-lg mb-2">Role</label>
                     <select name="role" class="border border-gray-200 rounded p-2 w-full">
-                        <option value="user">User</option>
+                        <option value="user">Customer</option>
                         <option value="merchant">Merchant</option>
                         <option value="admin">Admin</option>
                     </select>
