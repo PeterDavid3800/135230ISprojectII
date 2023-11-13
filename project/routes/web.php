@@ -46,7 +46,7 @@ use App\Models\Order;
     Route::get('/listings/orders', [ListingController::class, 'showOrderForm'])->name('order-form');
     Route::post('/listings/orders', [ListingController::class, 'placeOrder'])->name('place-order');
 
-// Single Listings
+  // Single Listings
 Route::get('listings/{listing}', [ListingController::class, 'show']);
 
 

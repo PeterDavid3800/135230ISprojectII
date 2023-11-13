@@ -18,7 +18,7 @@
             </div>
   
             <div class="text-lg mt-4">
-              <strong style="color: red;"> <del>Was Kshs {{$listing->oldPrice}}</del> </strong> <br>
+              <strong style="color: green;"> <del>Was Kshs {{$listing->oldPrice}}</del> </strong> <br>
               <strong>Is Now</strong><br>
               <strong> Kshs {{$listing->newPrice}}</strong>
           </div>

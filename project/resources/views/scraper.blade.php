@@ -17,8 +17,8 @@
                                 <a href="{{ $data['productLink'] }}">{{ $data['productName'] }}</a>
                             </h3>
                             <div class="text-xl font-bold mb-4">{{ $data['productBrand'] }}</div>
-                            <strong style="color: red;">{{ $data['productDiscount'] }}</strong>
-                            <strong style="color: red;">Discount</strong><br>
+                            <strong style="color: green;">{{ $data['productDiscount'] }}</strong>
+                            <strong style="color: green;">Discount</strong><br>
                             <strong> ${{ $data['productPrice'] }}</strong>
                         </div>
                     </div>

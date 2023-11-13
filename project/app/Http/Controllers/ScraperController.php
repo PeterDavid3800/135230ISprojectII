@@ -12,7 +12,7 @@ use Symfony\Component\BrowserKit\HttpBrowser;
 
 class ScraperController extends Controller
 {
-    public function scrapeJumia()
+    public function scrapeJumia(Request $request)
     {
         // Create a Goutte client to scrape the website
         $client = new Client();
@@ -51,6 +51,15 @@ class ScraperController extends Controller
                 'imageURL' => $imageURL, 
             ];
         });
+
+        // Filter the scraped data based on the search term
+        $searchTerm = $request->input('search');
+        if ($searchTerm) {
+            $scrapedData = array_filter($scrapedData, function ($item) use ($searchTerm) {
+                return stripos($item['productName'], $searchTerm) !== false;
+            });
+        }
+
         session(['scrapedData' => $scrapedData]);
         // Return the scraped data to the 'scraper' view
         return view('scraper', compact('scrapedData'));

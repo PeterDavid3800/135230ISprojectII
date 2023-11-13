@@ -43,16 +43,8 @@ public function store(Request $request)
     $categoriesArray = json_decode($budget->categories, true);
 
     // Redirect to a success page or the budget settings page
-    return view('/budget')->with('message', 'Budget set successfully');
+    return redirect('/budget')->with('message', 'Budget placed successfully!');
 }
 
-public function displayBudget()
-{
-    $user = Auth::user();
-    $userHasBudget = $user->budget !== null;
-    $userBudgetAmount = $userHasBudget ? $user->budget->amount : null;
-
-    return view('budget-display', compact('userHasBudget', 'userBudgetAmount'));
-}
 
 }
