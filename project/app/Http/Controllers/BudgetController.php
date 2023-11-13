@@ -11,40 +11,58 @@ class BudgetController extends Controller
 {
     public function create()
     {
-      return view('budget');
+        return view('budget');
     }
-    
 
+    public function store(Request $request)
+    {
+        // Validate the incoming data
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+            'categories' => 'array', // Ensure 'categories' is an array
+            'custom_categories' => 'nullable|string', // Custom categories are optional
+        ]);
 
-public function store(Request $request)
-{
-    // Validate the incoming data
-    $request->validate([
-        'amount' => 'required|numeric|min:0',
-        'categories' => 'array', // Ensure 'categories' is an array
-        'custom_categories' => 'nullable|string', // Custom categories are optional
-    ]);
+        // Get the authenticated user
+        $user = auth()->user();
 
-    // Get the authenticated user
-    $user = auth()->user();
+        // Serialize the categories array to JSON
+        $categories = json_encode($request->input('categories'));
 
-    // Serialize the categories array to JSON
-    $categories = json_encode($request->input('categories'));
+        // Create a new Budget instance
+        $budget = new Budget();
+        $budget->user_id = $user->id;
+        $budget->amount = $request->input('amount');
+        $budget->categories = $categories;
 
-    // Create a new Budget instance
-    $budget = new Budget();
-    $budget->user_id = $user->id;
-    $budget->amount = $request->input('amount');
-    $budget->categories = $categories;
+        // Save the budget to the database
+        $budget->save();
 
-    // Save the budget to the database
-    $budget->save();
+        $categoriesArray = json_decode($budget->categories, true);
 
-    $categoriesArray = json_decode($budget->categories, true);
+        // Redirect to the budget creation page with a success message
+        return redirect()->route('budget.create')->with('message', 'Budget set successfully');
+    }
 
-    // Redirect to a success page or the budget settings page
-    return redirect('/budget')->with('message', 'Budget placed successfully!');
-}
+    public function generateCategoryChart()
+    {
+        // Fetch all budgets from the database
+        $allBudgets = Budget::all();
 
+        // Initialize an empty array to store aggregated categories
+        $aggregatedCategories = [];
 
+        // Loop through each budget and aggregate categories
+        foreach ($allBudgets as $budget) {
+            $categoriesArray = json_decode($budget->categories, true);
+
+            foreach ($categoriesArray as $category) {
+                // Increment the count for each category
+                $aggregatedCategories[$category] = ($aggregatedCategories[$category] ?? 0) + 1;
+            }
+        }
+
+        // Pass the aggregated data to the view
+        return view('pie-chart')->with('categoriesArray', $aggregatedCategories);
+    }
 }

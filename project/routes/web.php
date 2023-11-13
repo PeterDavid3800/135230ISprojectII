@@ -10,6 +10,7 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ScraperController;
 use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\InsightsController;
 use App\Models\Crawler;
 use App\Models\Order;
 
@@ -97,21 +98,13 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 //BUDGET ROUTES
 Route::get('/budget', [BudgetController::class, 'create'])->name('budget.create');
 Route::post('/budget', [BudgetController::class, 'store'])->name('budget.store');
-Route::get('/budget-display', [BudgetController::class, 'displayBudget'])->name('budget.display');
+Route::get('/pie-chart', [BudgetController::class, 'generateCategoryChart'])->name('pie-chart');
 
-
-
-//CRAWLER
-//Crawler
-Route::get('/crawler', function () {
-    $items = Crawler::orderBy('status', 'asc')->get();
-
-    return view('crawler', ['items' => $items]);
-});
 
 //CHART
+Route::get('/insights', [InsightsController::class, 'show'])->name('insights.show');
 Route::get('/chart', [ListingController::class, 'generateTagChart'])->name('chart')->middleware('auth');
 
 //SCRAPER
 Route::get('scraper', [ScraperController::class, 'scrapeJumia'])->name('scraper');
-Route::get('/{productLink}', [ScraperController::class, 'product'])->name('product');
+Route::get('/{productLink}', [ScraperController::class, 'showProduct']);

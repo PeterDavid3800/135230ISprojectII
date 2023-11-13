@@ -109,7 +109,7 @@
     @endif
     @if(auth()->user()->role == "merchant" || auth()->user()->role == "admin")
         <a
-            href="/chart"
+            href="/insights"
             class="absolute top-1/3 left-10 bg-black text-white py-2 px-5"
         >Insights</a>
     @endif
