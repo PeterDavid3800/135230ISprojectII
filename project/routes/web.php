@@ -99,6 +99,7 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 Route::get('/budget', [BudgetController::class, 'create'])->name('budget.create');
 Route::post('/budget', [BudgetController::class, 'store'])->name('budget.store');
 Route::get('/pie-chart', [BudgetController::class, 'generateCategoryChart'])->name('pie-chart');
+Route::get('/wallet', [BudgetController::class, 'wallet'])->name('wallet');
 
 
 //CHART

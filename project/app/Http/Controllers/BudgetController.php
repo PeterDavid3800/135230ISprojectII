@@ -41,7 +41,7 @@ class BudgetController extends Controller
         $categoriesArray = json_decode($budget->categories, true);
 
         // Redirect to the budget creation page with a success message
-        return redirect()->route('budget.create')->with('message', 'Budget set successfully');
+        return redirect()->route('wallet')->with('message', 'Budget set successfully');
     }
 
     public function generateCategoryChart()
@@ -64,5 +64,17 @@ class BudgetController extends Controller
 
         // Pass the aggregated data to the view
         return view('pie-chart')->with('categoriesArray', $aggregatedCategories);
+    }
+
+    public function wallet()
+    {
+        // Get the authenticated user
+        $user = auth()->user();
+    
+        // Retrieve the user's budget
+        $budget = $user->budget;
+    
+        // Pass the budget amount to the wallet view
+        return view('wallet')->with('budgetAmount', optional($budget)->amount);
     }
 }
