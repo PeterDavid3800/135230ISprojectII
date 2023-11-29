@@ -254,8 +254,8 @@ Mail::send('emails.order-confirmation', ['order' => $deliveryNote], function ($m
 
 public function generateTagChart()
 {
-    // Retrieve cart items and associated listings
-    $cartItems = auth()->user()->cartItems()->with('listing')->get();
+    // Retrieve all cart items and associated listings
+    $cartItems = CartItem::with('listing')->get();
 
     // Count tags
     $tagCounts = [];
@@ -280,9 +280,8 @@ public function generateTagChart()
         'labels' => array_keys($tagCounts),
         'data' => array_values($tagCounts),
     ];
-    //dd($chartData);
+
     return view('chart', ['chartData' => $chartData]);
 }
-
 
 }
