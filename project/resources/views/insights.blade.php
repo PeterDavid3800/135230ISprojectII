@@ -1,13 +1,14 @@
 <x-layout>
     <x-card>
     <strong><h1>View Insights</h1></strong>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
-        <button style="width: 200px; height: 200px; background-color: black; color: white; margin-bottom: 20px;" class="bg-laravel text-white rounded py-2 px-4 hover:bg-black">
+        <button style="width: 200px; height: 100px; background-color: black; color: white; margin-bottom: 20px;" class="bg-laravel text-white rounded py-2 px-4 hover:bg-black">
             <a href="/chart" style="color: white; text-decoration: none; display: block; height: 100%; width: 100%;">
                 Most purchased Order Categories
             </a>
         </button>
-        <button style="width: 200px; height: 200px; background-color: black; color: white; margin-bottom: 20px;" class="bg-laravel text-white rounded py-2 px-4 hover:bg-black">
+        <button style="width: 200px; height: 100px; background-color: black; color: white; margin-bottom: 20px;" class="bg-laravel text-white rounded py-2 px-4 hover:bg-black">
             <a href="/pie-chart" style="color: white; text-decoration: none; display: block; height: 100%; width: 100%;">
                 Customers Best Deals
             </a>
