@@ -49,11 +49,13 @@ class User extends Authenticatable
     public function listings() {
         return $this->hasMany(Listing::class, 'user_id');
     }
+    //Relationship with cart items
     public function cartItems()
     {
         return $this->hasMany(CartItem::class);
     }
 
+    //Relationship with budget
     public function budget()
     {
        return $this->hasOne(Budget::class);
