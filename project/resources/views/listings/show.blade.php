@@ -27,7 +27,8 @@
             <h3 class="text-3xl font-bold mb-4">Product Description</h3>
             <div class="text-lg space-y-6">
               {{$listing->description}}
-  
+              @auth
+              @if(auth()->user()->role == "user" )
               <a href="mailto:{{$listing->email}}"
                 class="block bg-laravel text-white mt-6 py-2 rounded-xl hover:opacity-80"><i
                   class="fa-solid fa-envelope"></i>
@@ -36,15 +37,16 @@
               <a href="{{$listing->website}}" class="block bg-black text-white py-2 rounded-xl hover:opacity-80">
                   <i class="fa-solid fa-globe"></i> Visit Website
               </a>
-            <form method="POST" action="/listings/{{$listing->id}}/add-to-cart">
-                @csrf
-                <input type="number" name="quantity" value="1" min="0">
-                <button type="submit" class="bg-black text-white px-4 py-2 rounded-full">Add to Cart</button>
-            </form>
             <a href="/listings/cart" class="block bg-black text-white py-2 rounded-xl hover:opacity-80">
               <i class="fa-solid fa-cart"></i> View Cart
           </a>
-            
+          <form method="POST" action="/listings/{{$listing->id}}/add-to-cart">
+            @csrf
+            <input type="number" name="quantity" value="1" min="0">
+            <button type="submit" class="bg-black text-white px-4 py-2 rounded-full">Add to Cart</button>
+        </form>
+          @endif
+          @endauth
             {{--
             <a href="/listings/cart" class="block bg-black text-white py-2 rounded-xl hover:opacity-80">
                 <i class="fa-solid fa-wallet"></i> Make an Order

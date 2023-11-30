@@ -175,45 +175,6 @@ public function showOrderForm()
 
 public function placeOrder(Request $request)
 {
-      // Retrieve the user's cart items
-      $cartItems = auth()->user()->cartItems;
-
-      // Calculate the total price for the order
-      $totalPrice = $cartItems->sum(function ($item) {
-          return $item->listing->newPrice * $item->quantity;
-      });
-  
-      // Define the delivery date (3 days from now)
-      $deliveryDate = now()->addDays(3)->format('Y-m-d'); // Change the date format as needed
-  
-      // Get the delivery address provided by the user
-      $deliveryAddress = $request->input('delivery_address'); // Replace with the actual input field name
-  
-      // ...
-  
-      $orderDetails = [
-          'user_id' => auth()->user()->id, // User's ID
-          'total_price' => $totalPrice, // Total price of the order
-          'delivery_address' => $deliveryAddress, // Delivery address provided by the user
-          'delivery_date' => $deliveryDate, // Delivery date (3 days from now)
-          'items' => [], // An array to store individual items in the order
-      ];
-  
-      // Iterate through the cart items to add each item to the 'items' array
-      foreach ($cartItems as $cartItem) {
-          $orderDetails['items'][] = [
-              'listing_id' => $cartItem->listing->id,
-              'title' => $cartItem->listing->title,
-              'price' => $cartItem->listing->newPrice,
-              'quantity' => $cartItem->quantity,
-              'subtotal' => $cartItem->listing->newPrice * $cartItem->quantity,
-          ];
-      }
-    
-    // Optionally, you can save this order information to the database if needed
-    // You can add more fields to the $orderDetails array if necessary
-    
-
     // Retrieve the user's cart items
     $cartItems = auth()->user()->cartItems;
 
@@ -222,36 +183,65 @@ public function placeOrder(Request $request)
         return $item->listing->newPrice * $item->quantity;
     });
 
-    // Collect delivery information from the user
-    $deliveryAddress = $request->input('delivery_address');
-    $deliveryDate = $request->input('delivery_date');
+    // Define the delivery date (3 days from now)
+    $deliveryDate = now()->addDays(3)->format('Y-m-d'); // Change the date format as needed
+
+    // Get the delivery address provided by the user
+    $deliveryAddress = $request->input('delivery_address'); // Replace with the actual input field name
+
+    // Order details array
+    $orderDetails = [
+        'user_id' => auth()->user()->id, // User's ID
+        'total_price' => $totalPrice, // Total price of the order
+        'delivery_address' => $deliveryAddress, // Delivery address provided by the user
+        'delivery_date' => $deliveryDate, // Delivery date (3 days from now)
+        'items' => [], // An array to store individual items in the order
+    ];
+
+    // Iterate through the cart items to add each item to the 'items' array
+    foreach ($cartItems as $cartItem) {
+        $orderDetails['items'][] = [
+            'listing_id' => $cartItem->listing->id,
+            'title' => $cartItem->listing->title,
+            'price' => $cartItem->listing->newPrice,
+            'quantity' => $cartItem->quantity,
+            'subtotal' => $cartItem->listing->newPrice * $cartItem->quantity,
+        ];
+    }
+
+    // Optionally, you can save this order information to the database if needed
+    // You can add more fields to the $orderDetails array if necessary
 
     // Generate a delivery note or order summary
-$deliveryNote = 'Your Order Summary:';
-foreach ($cartItems as $cartItem) {
-    $deliveryNote .= $cartItem->listing->title . ' x' . $cartItem->quantity . ': Kshs ' . ($cartItem->listing->newPrice * $cartItem->quantity) . "\n";
-}
-$deliveryNote .= 'Total Price: Kshs ' . $totalPrice . "\n";
-$deliveryNote .= 'Delivery Date: ' . $deliveryDate . "\n";
-$deliveryNote .= 'Delivery Address: ' . $deliveryAddress . "\n";
+    $deliveryNote = "Your Order Summary:\n";
 
-// Generate a PDF from the delivery note
-$pdf = PDF::loadView('listings.delivery-note', ['deliveryNote' => $deliveryNote]);
+    foreach ($cartItems as $cartItem) {
+      $itemTotal = $cartItem->listing->newPrice * $cartItem->quantity;
+      $deliveryNote .= "{$cartItem->listing->title} : {$cartItem->quantity} @ Kshs {$cartItem->listing->newPrice} each = Kshs {$itemTotal}\n";
+     }
 
-// Send the PDF to the user's email
-Mail::send('emails.order-confirmation', ['order' => $deliveryNote], function ($message) use ($pdf) {
-    $message->to(auth()->user()->email)
-            ->subject('Order Confirmation')
-            ->attachData($pdf->output(), 'delivery-note.pdf');
-});
+      $deliveryNote .= "\nTotal Price: Kshs {$totalPrice}\n";
+      $deliveryNote .= "Delivery Date: {$deliveryDate}\n";
+      $deliveryNote .= "Delivery Address: {$deliveryAddress}\n";
 
+      // Generate a PDF from the delivery note
+      $pdf = PDF::loadView('listings.delivery-note', ['deliveryNote' => $deliveryNote]);
 
-    // Optionally, save the order and related information to the database
+      // Send the PDF to the user's email
+      Mail::send('emails.order-confirmation', ['order' => $deliveryNote], function ($message) use ($pdf) {
+           $message->to(auth()->user()->email)
+           ->subject('Order Confirmation')
+           ->attachData($pdf->output(), 'delivery-note.pdf');
+    });
+
+      // Remove items from the cart after placing the order
+      $cartItems->each->delete();  // This line will delete each cart item
+
+      // Optionally, save the order and related information to the database
 
     // Redirect the user after placing the order
     return redirect('/')->with('message', 'Order placed successfully!');
-}
-
+    }
 public function generateTagChart()
 {
     // Retrieve all cart items and associated listings

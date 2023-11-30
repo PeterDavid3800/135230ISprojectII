@@ -117,6 +117,11 @@
             class="absolute top-1/3 left-10 bg-black text-white py-2 px-5"
         >Insights</a>
     @endif
+    @if(auth()->user()->role == "user")
+    <a href="/listings/cart" class="absolute top-1/3 left-10 bg-black text-white py-2 px-5">
+        <i class="fa-solid fa-cart"></i> View Cart
+    </a>
+    @endif
 @endauth
         </footer>
         <x-flash-message></x-flash-message>
