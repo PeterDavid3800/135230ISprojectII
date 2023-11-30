@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+
+
 class AdminController extends Controller
 {
     public function createUserForm()
@@ -26,6 +28,7 @@ public function listUsers()
 
     return view('admin.list', ['users' => $users]);
 }
+
 public function create(){
     return view('admin.create');
 
@@ -48,7 +51,7 @@ public function createUser(Request $request)
 
     $user->save();
 
-    return redirect('/admin/users')->with('success', 'User created successfully.');
+    return redirect('/admin/list')->with('message', 'User created successfully.');
 }
 
 public function editUserForm($id)
@@ -61,26 +64,32 @@ public function updateUser(Request $request, $id)
 {
     $request->validate([
         'name' => 'required',
-        'email' => 'required|email|unique:users,email,' . $id,
+        'email' => ['required', 'email', Rule::unique('users')->ignore($id)],
         'role' => 'required|in:user,merchant,admin',
     ]);
 
     $user = User::findOrFail($id);
     $user->name = $request->input('name');
     $user->email = $request->input('email');
-    $user->syncRoles([$request->input('role')]); // Update user role
+
+    // Remove any existing roles and assign the new role
+    $user->role = $request->input('role');
 
     $user->save();
 
-    return redirect('/admin/list')->with('success', 'User updated successfully.');
+    return redirect('/admin/list')->with('message', 'User updated successfully.');
+
 }
+
+
+
 
 public function deleteUser($id)
 {
     $user = User::findOrFail($id);
     $user->delete();
 
-    return redirect('/admin/users')->with('success', 'User deleted successfully.');
+    return redirect('/admin/list')->with('message', 'User deleted successfully.');
 }
 
 }

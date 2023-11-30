@@ -52,20 +52,19 @@ Route::get('listings/{listing}', [ListingController::class, 'show']);
 
 
 Route::group(['middleware' => ['\App\Http\Middleware\CheckRoleAdmin']], function () {
-        Route::get('/admin/list', [AdminController::class, 'listUsers']);
-        Route::get('/admin/create', [AdminController::class, 'create']); // Create user form
-        Route::post('/admin/create', [AdminController::class, 'createUser']); // Create user action
-        Route::get('/admin/edit/{id}', [AdminController::class, 'editUserForm'])->name('admin.edit'); // Edit user form
-        Route::put('/admin/{id}', [AdminController::class, 'updateUser']); // Update user action
-        Route::delete('/admin/{id}', [AdminController::class, 'deleteUser'])->name('admin.destroy');
-        Route::put('/admin/{id}', [AdminController::class, 'updateUsers']);
-        Route::delete('/admin/{id}', [AdminController::class, 'deleteUsers']);
-        Route::get('listings/create', [ListingController::class, 'create']);
-        Route::get('listings/{listing}/edit', [ListingController::class, 'edit']);
-        Route::put('/listings/{listing}', [ListingController::class, 'update']);
-        Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
-        Route::get('/listings/manage', [ListingController::class, 'manage']);
+  Route::get('/admin/list', [AdminController::class, 'listUsers']);
+  Route::get('/admin/create', [AdminController::class, 'create']);
+  Route::post('/admin/create', [AdminController::class, 'createUser']);
+  Route::get('/admin/edit/{id}', [AdminController::class, 'editUserForm']);
+  Route::put('/admin/edit/{id}', [AdminController::class, 'updateUser']);
+  Route::delete('/admin/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.destroy');
+  Route::get('listings/create', [ListingController::class, 'create']);
+  Route::get('listings/{listing}/edit', [ListingController::class, 'edit']);
+  Route::put('/listings/{listing}', [ListingController::class, 'update']);
+  Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
+  Route::get('/listings/manage', [ListingController::class, 'manage']);
 });
+
 
 //ALL USER AUTH ROUTES
 //Showing the register form

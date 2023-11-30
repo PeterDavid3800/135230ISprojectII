@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use App\Models\CartItem;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Barryvdh\DomPDF\Facade;
@@ -75,31 +77,32 @@ class ListingController extends Controller
 
     // Update Listing Data
     public function update(Request $request, Listing $listing) {
-        // Make sure logged in user is owner
-        if($listing->user_id != auth()->id()) {
-            abort(403, 'Unauthorized Action');
-        }
-        
-        $formFields = $request->validate([
-            'title' => 'required',
-            'company' => ['required'],
-            'location' => 'required',
-            'website' => 'required',
-            'oldPrice' => 'required',
-            'newPrice' => 'required',
-            'email' => ['required', 'email'],
-            'tags' => 'required',
-            'description' => 'required'
-        ]);
-
-        if($request->hasFile('logo')) {
-            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
-        }
-
-        $listing->update($formFields);
-
-        return back()->with('message', 'Listing updated successfully!');
+    // Check if the user is the owner or an admin
+    if ($listing->user_id != auth()->id() && auth()->user()->role !== 'admin') {
+        abort(403, 'Unauthorized Action');
     }
+    
+    $formFields = $request->validate([
+        'title' => 'required',
+        'company' => ['required'],
+        'location' => 'required',
+        'website' => 'required',
+        'oldPrice' => 'required',
+        'newPrice' => 'required',
+        'email' => ['required', 'email'],
+        'tags' => 'required',
+        'description' => 'required'
+    ]);
+
+    if ($request->hasFile('logo')) {
+        $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+    }
+
+    $listing->update($formFields);
+
+    return back()->with('message', 'Listing updated successfully!');
+}
+
 
     
     // Delete Listing
@@ -210,6 +213,27 @@ public function placeOrder(Request $request)
     }
 
     // Optionally, you can save this order information to the database if needed
+        // Save order information to the database
+        $order = Order::create([
+            'user_id' => auth()->user()->id,
+            'total_price' => $totalPrice,
+            'delivery_address' => $deliveryAddress,
+            'delivery_date' => $deliveryDate,
+            // Add other necessary fields
+        ]);
+    
+        // Save individual items in the order to a related table (e.g., order_items)
+        // Save individual items in the order to a related table (e.g., order_items)
+foreach ($cartItems as $cartItem) {
+    $order->orderItems()->create([
+        'listing_id' => $cartItem->listing->id,
+        'title' => $cartItem->listing->title,
+        'price' => $cartItem->listing->newPrice,
+        'quantity' => $cartItem->quantity,
+        'subtotal' => $cartItem->listing->newPrice * $cartItem->quantity,
+    ]);
+}
+
     // You can add more fields to the $orderDetails array if necessary
 
     // Generate a delivery note or order summary
@@ -241,17 +265,19 @@ public function placeOrder(Request $request)
 
     // Redirect the user after placing the order
     return redirect('/')->with('message', 'Order placed successfully!');
-    }
+}
+
+
 public function generateTagChart()
 {
-    // Retrieve all cart items and associated listings
-    $cartItems = CartItem::with('listing')->get();
+    // Retrieve all order items and associated listings
+    $orderItems = OrderItem::with('listing')->get();
 
     // Count tags
     $tagCounts = [];
 
-    foreach ($cartItems as $cartItem) {
-        $listingTags = $cartItem->listing->tagsArray;
+    foreach ($orderItems as $orderItem) {
+        $listingTags = $orderItem->listing->tagsArray;
 
         foreach ($listingTags as $tag) {
             if (isset($tagCounts[$tag])) {
