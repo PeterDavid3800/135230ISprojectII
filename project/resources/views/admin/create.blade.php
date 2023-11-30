@@ -34,7 +34,6 @@
                 <select name="role" class="border border-gray-200 rounded p-2 w-full">
                     <option value="user">User</option>
                     <option value="merchant">Merchant</option>
-                    <option value="admin">Admin</option>
                 </select>
             </div>
 

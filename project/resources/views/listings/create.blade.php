@@ -94,7 +94,7 @@
 
           <div class="mb-6">
               <label for="description" class="inline-block text-lg mb-2">Product Description</label>
-              <textarea class="border border-gray-200 rounded p-2 w-full" name="description" rows="10" placeholder="Include discount percentage, specs if it is a machine, and so on">{{ old('description') }}</textarea>
+              <textarea class="border border-gray-200 rounded p-2 w-full" name="description" rows="10" placeholder="Talk about its advantages annd market it, specs if it is a machine, and so on">{{ old('description') }}</textarea>
 
               @error('description')
               <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
